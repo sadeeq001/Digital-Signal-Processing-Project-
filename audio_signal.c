@@ -24,12 +24,18 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <time.h>  // for clock_t, clock(), CLOCKS_PER_SEC
  
 #define N 160
  
 int main(int argc, char **argv)
 {
-    int xn[N];
+    // to store the execution time of code
+    double time_spent = 0.0;
+ 
+    clock_t begin = clock();
+    
+    //int xn[N];
 	float Xr[N];
 	float Xi[N];
 	int k = 0;
@@ -54,13 +60,13 @@ int main(int argc, char **argv)
     for (n = 0; n < N; ++n) 
     fprintf(csvfile, "%d\n", buf[n]);
     fclose(csvfile);
-
+    
     for (k = 0; k < N; k++) {
     Xr[k] = 0;
     Xi[k] = 0;
     for (n = 0; n < N; n++) {
-        Xr[k] = (Xr[k] + xn[n] * cos(2 * 3.141592 * k * n / N));
-        Xi[k] = (Xi[k] + xn[n] * sin(2 * 3.141592 * k * n / N));
+    Xr[k] = (Xr[k] + buf[n] * cos(2 * 3.141592 * k * n / N));
+    Xi[k] = (Xi[k] + buf[n] * sin(2 * 3.141592 * k * n / N));
     }
     
     /* Doing some few arithmetics here before saving magnitudes values */
@@ -71,13 +77,23 @@ int main(int argc, char **argv)
     
     // printing the magnitudes of the real and imaginary coefficients on a csv file
     
-    FILE *csvfile;
-    csvfile = fopen("magnitudes.csv", "w");
-    fprintf(csvfile, "%f\n", magnitude);
-    fclose(csvfile);
+    FILE *magnitudefile;
+    magnitudefile = fopen("magnitudes.csv", "a");
+    fprintf(magnitudefile, "%f\n", magnitude);
+    fclose(magnitudefile);
 
     printf("(%f) + j(%f)\n", Xr[k], Xi[k]);
     printf("(%f)\n", magnitude);
+    
+    
 }
+
+    clock_t end = clock();
+ 
+    // calculate elapsed time by finding difference (end - begin) and
+    // dividing the difference by CLOCKS_PER_SEC to convert to seconds
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+ 
+    printf("The elapsed time is %f seconds", time_spent);
     
 }

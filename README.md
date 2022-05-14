@@ -1,2 +1,4 @@
 # Digital-Signal-Processing-Project-
-This is a course project for Digital Signal Processing
+**Implementation and Optimisation of Discrete Fourier Tranform (DCT) Algorithm**
+This is a course project for Digital Signal Processing by **Abubakar Ndagi and Nesrine Merabti**
+Please find attached to this repository a microsoft word document which contains detail explanation on how the Discrete Fourier Transfor algorithm was implemented and how it was optimised.
